@@ -1,0 +1,32 @@
+{
+  "name": "keyboard",
+  "version": "1.0.0",
+  "description": "> 模拟真实键盘输入",
+  "main": "index.js",
+  "scripts": {
+    "cm": "git-cz"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhoujing0519/keyboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhoujing0519/keyboard/issues"
+  },
+  "homepage": "https://github.com/zhoujing0519/keyboard#readme",
+  "devDependencies": {
+    "commitizen": "^4.0.4",
+    "cz-conventional-changelog": "^3.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  }
+}
