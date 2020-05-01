@@ -22,3 +22,7 @@
 
 - 方向键
 - ctrl, alt, cmd, shift
+
+> 对音频文件进行裁剪
+
+- ffmpeg -i 124.mp3 -vn -acodec copy -ss 00:00:00 -t 00:01:32 output.mp3
