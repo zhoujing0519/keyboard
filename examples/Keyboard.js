@@ -16,15 +16,20 @@ Keyboard.prototype.render = function(){
 
   let fragment = document.createDocumentFragment()
 
-  this.keys.forEach((keyGroup) => {
+  this.keys.forEach((keyGroup, rowIndex) => {
     const row = document.createElement('div')
+    const delay = Math.abs(Math.floor(this.keys.length / 2) - rowIndex) * 100
 
     row.className = 'row'
 
-    keyGroup.forEach(({ key, keyCode, code }) => {
+    keyGroup.forEach(({ key, keyCode, code }, index) => {
       const $key = new Key(key, keyCode, code)
-      
-      row.appendChild($key.$el)
+      const { $el } = $key
+
+      Object.assign($el.style, {
+        'animation-delay': `${Math.abs(Math.floor(keyGroup.length / 2) - index) * 100 + delay}ms`
+      })
+      row.appendChild($el)
       
       this.$keys.push($key)
     })
