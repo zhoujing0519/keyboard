@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kumamon</title>
+  <link rel="shortcut icon" href="http://lofree.com.cn/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./lofree.css">
 </head>
 <body>
-  <input type="text">
-  <script src="../svg.js"></script>
   <script src="../keymap.js"></script>
-  <script src="../key.js"></script>
-  <script src="../keyboard.js"></script>
+  <script src="../Key.js"></script>
+  <script src="../Keyboard.js"></script>
+  <script src="../AudioPool.js"></script>
   <script>
-    const downAudioPool = []
-    const upAudioPool = []
+    const downAudioPool = new AudioPool('./down.mp3')
+    const upAudioPool = new AudioPool('./up.mp3')
     const keyboard = new Keyboard(keys)
     const activedKeys = []
 
@@ -52,16 +52,7 @@
       }
 
       $key && $key.keydownHandler()
-
-      if(downAudioPool.length === 0){
-        const audio = document.createElement('audio')
-
-        audio.onended = () => downAudioPool.push(audio)
-        audio.src = './down.mp3'
-        audio.play()
-      }else{
-        downAudioPool.shift().play()
-      }
+      downAudioPool.playAudio()
 
       if(code === 'Tab'){
         setTimeout(() => {
@@ -77,17 +68,10 @@
       // 将此键从已激活状态列表中移除
       activedKeys.splice(activedKeys.findIndex((key) => key === $key), 1)
       $key && $key.keyupHandler()
-
-      if(upAudioPool.length === 0){
-        const audio = document.createElement('audio')
-
-        audio.onended = () => upAudioPool.push(audio)
-        audio.src = './up.mp3'
-        audio.play()
-      }else{
-        upAudioPool.shift().play()
-      }
+      upAudioPool.playAudio()
     }
+
+    function playAudio(pool){}
   </script>
 </body>
 </html>
