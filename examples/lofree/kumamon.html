@@ -4,8 +4,89 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kumamon</title>
+  <link rel="stylesheet" href="./lofree.css">
 </head>
 <body>
-  
+  <script src="../svg.js"></script>
+  <script src="../keymap.js"></script>
+  <script src="../key.js"></script>
+  <script src="../keyboard.js"></script>
+  <script>
+    const downAudioPool = []
+    const upAudioPool = []
+    const keyboard = new Keyboard(keys)
+    const activedKeys = []
+
+    document.addEventListener('keydown', keydownHandler, false)
+    document.addEventListener('keyup', keyupHandler, false)
+    document.addEventListener('mousedown', mousedownHandler, false)
+    document.addEventListener('mouseup', mouseupHandler, false)
+
+    function mousedownHandler(event){
+      const { target } = event
+
+      if(!target.classList.contains('key')) return
+
+      keydownHandler(target.dataset)
+    }
+
+    function mouseupHandler(event){
+      const { target } = event
+
+      if(!target.classList.contains('key')) return
+
+      keyupHandler(target.dataset)
+    }
+
+    function keydownHandler(event){
+      const { code } = event
+      const $key = keyboard.getKey(code)
+
+      if(activedKeys.includes($key)){
+        // 如果已经按过此键，则不执行任何操作
+        return
+      }else{
+        // 将此键添加到已激活状态列表中
+        activedKeys.push($key)
+      }
+
+      $key && $key.keydownHandler()
+
+      if(downAudioPool.length === 0){
+        const audio = document.createElement('audio')
+
+        audio.onended = () => downAudioPool.push(audio)
+        audio.src = './down.mp3'
+        audio.play()
+      }else{
+        downAudioPool.shift().play()
+      }
+
+      if(code === 'Tab'){
+        setTimeout(() => {
+          $key.keyupHandler()
+        }, 16)
+      }
+    }
+
+    function keyupHandler(event){
+      const { code } = event
+      const $key = keyboard.getKey(code)
+
+      // 将此键从已激活状态列表中移除
+      activedKeys.splice(activedKeys.findIndex((key) => key === $key), 1)
+      $key && $key.keyupHandler()
+
+      if(upAudioPool.length === 0){
+        const audio = document.createElement('audio')
+
+        audio.onended = () => upAudioPool.push(audio)
+        audio.src = './up.mp3'
+        audio.play()
+      }else{
+        upAudioPool.shift().play()
+      }
+    }
+  </script>
 </body>
 </html>
