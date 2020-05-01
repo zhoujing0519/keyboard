@@ -20,10 +20,12 @@
 
     document.addEventListener('keydown', keydownHandler, false)
     document.addEventListener('keyup', keyupHandler, false)
-    document.addEventListener('mousedown', mousedownHandler, false)
-    document.addEventListener('mouseup', mouseupHandler, false)
+    document.addEventListener('mousedown', pressDownHandler, false)
+    document.addEventListener('mouseup', pressUpHandler, false)
+    document.addEventListener('touchstart', pressDownHandler, false)
+    document.addEventListener('touchend', pressUpHandler, false)
 
-    function mousedownHandler(event){
+    function pressDownHandler(event){
       const { target } = event
 
       if(!target.classList.contains('key')) return
@@ -31,7 +33,7 @@
       keydownHandler(target.dataset)
     }
 
-    function mouseupHandler(event){
+    function pressUpHandler(event){
       const { target } = event
 
       if(!target.classList.contains('key')) return
